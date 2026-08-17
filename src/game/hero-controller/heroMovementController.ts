@@ -7,6 +7,10 @@ export interface HeroMovementController {
   vehicle: Vehicle;
   /** Requests a NavMesh path to the given ground point and starts following it. */
   moveTo(point: Vector3): void;
+  /** Cancels any in-progress path and zeroes velocity immediately (e.g. entering attack range). */
+  stop(): void;
+  /** True while the vehicle has meaningful velocity — drives the Idle/Moving combat state. */
+  isMoving(): boolean;
   /** Copies the simulated Yuka position/orientation onto the Babylon mesh. Call once per frame. */
   syncMesh(): void;
 }
@@ -14,6 +18,8 @@ export interface HeroMovementController {
 const MAX_SPEED = 14;
 const MAX_FORCE = 80;
 const NEXT_WAYPOINT_DISTANCE = 1.5;
+/** Below this squared speed, the vehicle counts as stopped for state-machine purposes. */
+const MOVING_SPEED_SQ_EPSILON = 0.01;
 
 export function createHeroMovementController(navMesh: NavMesh, mesh: Mesh): HeroMovementController {
   const vehicle = new Vehicle();
@@ -38,9 +44,19 @@ export function createHeroMovementController(navMesh: NavMesh, mesh: Mesh): Hero
     followPathBehavior.active = waypoints.length > 0;
   }
 
+  function stop(): void {
+    followPathBehavior.active = false;
+    followPathBehavior.path.clear();
+    vehicle.velocity.set(0, 0, 0);
+  }
+
+  function isMoving(): boolean {
+    return vehicle.getSpeedSquared() > MOVING_SPEED_SQ_EPSILON;
+  }
+
   function syncMesh(): void {
     syncMeshFromYuka(vehicle, mesh);
   }
 
-  return { vehicle, moveTo, syncMesh };
+  return { vehicle, moveTo, stop, isMoving, syncMesh };
 }

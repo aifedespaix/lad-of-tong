@@ -137,6 +137,11 @@ Au lancement, le joueur choisit un héros. Les statistiques (HP, Mana, Vitesse, 
 > Apex (le héros contrôlé par défaut, `CONTROLLED_HERO_ID` dans `src/game/map/mapConfig.ts`).
 > Brutus a un corps cube simple sans biseaux (Babylon.js n'a pas de primitive "rounded box"
 > native — un détail d'art différé). Les sorts de tous les héros sont Milestone 3.
+>
+> **État Milestone 2 :** les 3 héros ont maintenant HP + rayon de collision + stats d'attaque auto
+> (`src/game/combat/heroStats.ts`, valeurs provisoires). L'attaque auto d'Apex (projectile
+> cylindrique fin) est câblée de bout en bout ; celles de Brutus (cleave mêlée) et Aura (orbes
+> homing) ont leurs stats définies mais ne tirent pas encore. Mana et sorts restent Milestone 3.
 
 ---
 
@@ -157,6 +162,11 @@ Le jeu doit supporter nativement les configurations clavier US (QWERTY) et FR (A
 > (`src/game/input/pointerInput.ts`, `KeyboardEvent.code` déjà utilisé pour le toggle de debug
 > NavMesh). Clic droit sur un ennemi + attaque auto en boucle, et les touches de sorts, sont
 > Milestone 2/3.
+>
+> **État Milestone 2 :** clic droit sur un ennemi (Brutus/Aura, `registerRightClickCommand` dans
+> `pointerInput.ts`) déplace Apex à portée puis déclenche l'attaque auto en boucle
+> (`src/game/combat/autoAttackController.ts`) tant que la cible est à portée et vivante ; clic
+> droit sur le sol annule la cible en cours. Les touches de sorts restent Milestone 3.
 
 ### 7.2. Interface Utilisateur (UI HTML/CSS superposée au Canvas)
 *   **Barre de vie (au-dessus des entités) :** Rouge pour les ennemis, Vert pour les alliés. Division visuelle (ex: 1 trait tous les 100 HP) pour estimer la robustesse d'un coup d'œil.
@@ -168,6 +178,12 @@ Le jeu doit supporter nativement les configurations clavier US (QWERTY) et FR (A
 
 > **État Milestone 1 :** le HUD SolidJS (`src/ui/HudRoot.tsx`) est un conteneur vide
 > (`pointer-events: none`) prêt à recevoir ces widgets — aucun n'est encore implémenté.
+>
+> **État Milestone 2 :** toujours aucun widget dans `HudRoot.tsx`. À la place, un simple
+> résumé HP/état en DOM brut (non Solid, non stylé) est monté directement par
+> `src/game/bootstrap.ts` (`src/game/combat/hpDebugOverlay.ts`) — un remplaçant temporaire
+> explicitement permis par milestone-2-combat.md, à retirer quand les vraies barres de vie
+> (Milestone 3.5) existeront.
 
 ---
 
