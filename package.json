@@ -1,0 +1,30 @@
+{
+  "name": "lad-of-tong",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@babylonjs/core": "latest",
+    "solid-js": "latest",
+    "yuka": "latest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "latest",
+    "@types/node": "^26.2.0",
+    "@types/yuka": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vite-plugin-solid": "latest",
+    "vitest": "latest"
+  }
+}
