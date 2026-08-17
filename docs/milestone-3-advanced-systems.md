@@ -50,10 +50,12 @@ directly, it's mostly composition of existing pieces plus:
 - The 3 minion visual types (`Cube`+triangle / `Cylinder`+cylinder / inverted-`Cone`+sphere) as a
   new `src/game/minions/` sibling to `src/game/heroes/`, following the same
   factory-per-visual-type pattern established in `heroFactory.ts` / `heroes/visuals/`.
-- **Team/faction concept doesn't exist yet** (Milestone 1-2 only ever had one controlled hero
-  with no enemies) — this is the first milestone that needs it. Keep it minimal: an entity gets a
-  `team: "blue" | "red"` field: this determines targeting eligibility and eventually rendering
-  (blue/red team colors mentioned throughout ARCHITECTURE.md §4).
+- **Team/faction concept already exists in minimal form**: Milestone 2's `CombatEntity`
+  (`src/game/combat/combatEntity.ts`) has a `team: "blue" | "red"` field, introduced for
+  projectile friendly-fire filtering (Apex is `"blue"`, Brutus/Aura are `"red"` test dummies).
+  Reuse it for minion team assignment and targeting-priority filtering rather than reinventing it
+  — it doesn't yet drive any rendering (blue/red team colors mentioned throughout
+  ARCHITECTURE.md §4 are still unimplemented), so that part is still this milestone's to add.
 
 ## 3.4 Structures: Idol, Forts, Outer Towers
 
